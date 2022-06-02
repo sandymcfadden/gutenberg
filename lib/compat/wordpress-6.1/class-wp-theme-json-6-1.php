@@ -225,8 +225,19 @@ class WP_Theme_JSON_6_1 extends WP_Theme_JSON_6_0 {
 		$node         = _wp_array_get( $this->theme_json, $block_metadata['path'], array() );
 		$selector     = $block_metadata['selector'];
 		$settings     = _wp_array_get( $this->theme_json, array( 'settings' ) );
-		$declarations = static::compute_style_properties( $node, $settings );
-		$block_rules  = static::to_ruleset( $selector, $declarations );
+//		$declarations = static::compute_style_properties( $node, $settings );
+//		$block_rules  = static::to_ruleset( $selector, $declarations );
+		$block_rules  = '';
+		$styles = gutenberg_style_engine_generate(
+			$node,
+			array(
+				'selector' => $selector,
+				'prettify' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG,
+			)
+		);
+		if ( isset( $styles['css'] ) ) {
+			$block_rules = $styles['css'];
+		}
 		return $block_rules;
 	}
 
