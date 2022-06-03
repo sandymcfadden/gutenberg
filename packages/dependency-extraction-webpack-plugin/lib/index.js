@@ -173,11 +173,11 @@ class DependencyExtractionWebpackPlugin {
 
 		// Process each entrypoint chunk independently
 		for ( const chunk of entrypointChunks ) {
-			const chunkFilename = Array.from( chunk.files ).find( ( f ) =>
-				/\.js$/i.test( f )
-			);
-			if ( ! chunkFilename ) {
-				// There's no JS file in this chunk, there's no work for us.
+			const chunkFiles = Array.from( chunk.files );
+
+			const chunkJSFile = chunkFiles.find( ( f ) => /\.js$/i.test( f ) );
+			if ( ! chunkJSFile ) {
+				// There's no JS file in this chunk, no work for us. Typically a `style.css` from cache group.
 				continue;
 			}
 
@@ -217,8 +217,12 @@ class DependencyExtractionWebpackPlugin {
 				hashDigest,
 				hashDigestLength,
 			} = compilation.outputOptions;
-			const contentHash = createHash( hashFunction )
-				.update( compilation.getAsset( chunkFilename ).source.buffer() )
+
+			const contentHash = chunkFiles
+				.reduce( ( hash, filename ) => {
+					const asset = compilation.getAsset( filename );
+					return hash.update( asset.source.buffer() );
+				}, createHash( hashFunction ) )
 				.digest( hashDigest )
 				.slice( 0, hashDigestLength );
 
@@ -229,21 +233,24 @@ class DependencyExtractionWebpackPlugin {
 			};
 
 			if ( combineAssets ) {
-				combinedAssetsData[ chunkFilename ] = assetData;
+				combinedAssetsData[ chunkJSFile ] = assetData;
 				continue;
 			}
 
-			const assetFilename = outputFilename
-				? compilation.getPath( outputFilename, {
-						chunk,
-						filename: chunkFilename,
-						basename: basename( chunkFilename ),
-						contentHash,
-				  } )
-				: chunkFilename.replace(
-						/\.js$/i,
-						'.asset.' + ( outputFormat === 'php' ? 'php' : 'json' )
-				  );
+			let assetFilename;
+			if ( outputFilename ) {
+				assetFilename = compilation.getPath( outputFilename, {
+					chunk,
+					filename: chunkJSFile,
+					contentHash,
+				} );
+			} else {
+				const suffix =
+					'.asset.' + ( outputFormat === 'php' ? 'php' : 'json' );
+				assetFilename = compilation
+					.getPath( '[file]', { filename: chunkJSFile } )
+					.replace( /\.js$/i, suffix );
+			}
 
 			// Add source and file into compilation for webpack to output.
 			compilation.assets[ assetFilename ] = new RawSource(
@@ -271,13 +278,6 @@ class DependencyExtractionWebpackPlugin {
 			);
 		}
 	}
-}
-
-function basename( name ) {
-	if ( ! name.includes( '/' ) ) {
-		return name;
-	}
-	return name.substr( name.lastIndexOf( '/' ) + 1 );
 }
 
 module.exports = DependencyExtractionWebpackPlugin;
