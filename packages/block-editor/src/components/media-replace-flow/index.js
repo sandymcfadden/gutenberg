@@ -41,6 +41,7 @@ const MediaReplaceFlow = ( {
 	onError,
 	onSelect,
 	onSelectURL,
+	onCloseModal = noop,
 	onFilesUpload = noop,
 	name = __( 'Replace' ),
 	createNotice,
@@ -49,6 +50,7 @@ const MediaReplaceFlow = ( {
 	multiple = false,
 	addToGallery,
 	handleUpload = true,
+	buttonVariant,
 } ) => {
 	const [ mediaURLValue, setMediaURLValue ] = useState( mediaURL );
 	const mediaUpload = useSelect( ( select ) => {
@@ -141,6 +143,7 @@ const MediaReplaceFlow = ( {
 					aria-haspopup="true"
 					onClick={ onToggle }
 					onKeyDown={ openOnArrowDown }
+					variant={ buttonVariant }
 				>
 					{ name }
 				</ToolbarButton>
@@ -157,6 +160,7 @@ const MediaReplaceFlow = ( {
 								selectMedia( media, onClose )
 							}
 							allowedTypes={ allowedTypes }
+							onClose={ onCloseModal }
 							render={ ( { open } ) => (
 								<MenuItem icon={ mediaIcon } onClick={ open }>
 									{ __( 'Open Media Library' ) }
