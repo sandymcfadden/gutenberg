@@ -38,8 +38,8 @@ import {
 import type { WordPressComponentProps } from '../ui/context';
 import type { RangeControlProps } from './types';
 
-function UnforwardedRangeControl< P >(
-	props: WordPressComponentProps< RangeControlProps< P >, 'div' >,
+function UnforwardedRangeControl< IconProps = unknown >(
+	props: WordPressComponentProps< RangeControlProps< IconProps >, 'div' >,
 	ref: ForwardedRef< HTMLDivElement >
 ) {
 	const {
