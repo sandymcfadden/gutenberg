@@ -134,7 +134,7 @@ function UnforwardedRangeControl< IconProps = unknown >(
 		'inspector-range-control'
 	);
 	const describedBy = !! help ? `${ id }__help` : undefined;
-	const enableTooltip = showTooltipProp !== false && isFinite( value );
+	const enableTooltip = hasTooltip !== false && isFinite( value );
 
 	const handleOnRangeChange = ( event: ChangeEvent< HTMLInputElement > ) => {
 		const nextValue = parseFloat( event.target.value );
