@@ -229,7 +229,7 @@ function UnforwardedRangeControl< IconProps = unknown >(
 			<Root className="components-range-control__root">
 				{ beforeIcon && (
 					<BeforeIconWrapper>
-						<Icon icon={ beforeIcon } role="img" />
+						<Icon icon={ beforeIcon } />
 					</BeforeIconWrapper>
 				) }
 				<Wrapper
@@ -293,7 +293,7 @@ function UnforwardedRangeControl< IconProps = unknown >(
 				</Wrapper>
 				{ afterIcon && (
 					<AfterIconWrapper>
-						<Icon icon={ afterIcon } role="img" />
+						<Icon icon={ afterIcon } />
 					</AfterIconWrapper>
 				) }
 				{ hasInputField && (
