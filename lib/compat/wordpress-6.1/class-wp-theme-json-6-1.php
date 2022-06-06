@@ -288,7 +288,8 @@ class WP_Theme_JSON_6_1 extends WP_Theme_JSON_6_0 {
 			 * @link https://github.com/WordPress/gutenberg/issues/36147.
 			 */
 			if ( static::ROOT_BLOCK_SELECTOR === $selector ) {
-				$block_rules .= "body { margin: 0; }\n";
+				$node['spacing']['margin'] = '0px';
+
 			}
 
 			// 2. Generate the rules that use the general selector.
@@ -301,6 +302,7 @@ class WP_Theme_JSON_6_1 extends WP_Theme_JSON_6_0 {
 					'prettify' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG,
 				)
 			);
+
 			if ( isset( $styles['css'] ) ) {
 				$block_rules .= $styles['css'];
 			}
