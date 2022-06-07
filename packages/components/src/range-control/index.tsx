@@ -35,10 +35,15 @@ import {
 	Wrapper,
 } from './styles/range-control-styles';
 
-import type { UnforwardedRangeControlProps } from './types';
+import type { RangeControlProps } from './types';
+import type { WordPressComponentProps } from '../ui/context';
 
 function UnforwardedRangeControl< IconProps = unknown >(
-	props: UnforwardedRangeControlProps< IconProps >,
+	props: WordPressComponentProps<
+		RangeControlProps< IconProps >,
+		'div',
+		false
+	>,
 	ref: ForwardedRef< HTMLDivElement >
 ) {
 	const {
