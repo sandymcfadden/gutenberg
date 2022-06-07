@@ -14,12 +14,7 @@ import { openDocumentSettingsSidebar } from './open-document-settings-sidebar';
 import { openPreviewPage } from './preview';
 import { selectBlocks } from './select-blocks';
 import { showBlockToolbar } from './show-block-toolbar';
-import {
-	openGlobalStylesPanel,
-	openPreviousGlobalStylesPanel,
-	saveSiteEditorEntities,
-	toggleGlobalStyles,
-} from './site-editor';
+import { saveSiteEditorEntities } from './site-editor';
 
 type EditorConstructorProps = {
 	page: Page;
@@ -62,11 +57,8 @@ export class Editor {
 	getEditedPostContent = getEditedPostContent;
 	insertBlock = insertBlock;
 	openDocumentSettingsSidebar = openDocumentSettingsSidebar;
-	openGlobalStylesPanel = openGlobalStylesPanel;
 	openPreviewPage = openPreviewPage;
-	openPreviousGlobalStylesPanel = openPreviousGlobalStylesPanel;
 	saveSiteEditorEntities = saveSiteEditorEntities;
 	selectBlocks = selectBlocks;
 	showBlockToolbar = showBlockToolbar;
-	toggleGlobalStyles = toggleGlobalStyles;
 }
